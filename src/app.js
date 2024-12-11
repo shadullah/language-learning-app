@@ -21,9 +21,13 @@ app.use(cookieParser());
 // import routes
 import userRouter from "./routes/user.route.js";
 import tutorialRouter from "./routes/tutorial.route.js";
+import lessonsRouter from "./routes/lesson.route.js";
+import vocabRouter from "./routes/vocab.route.js";
 
 // routes declare
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/tutorials", tutorialRouter);
+app.use("/api/v1/lessons", lessonsRouter);
+app.use("/api/v1/vocabs", vocabRouter);
 
 export { app };
