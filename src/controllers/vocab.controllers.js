@@ -61,4 +61,39 @@ const deleteVocab = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, vocab, "vocab deleted successfully"));
 });
 
-export { vocabAdd, getAllVocabs, deleteVocab };
+const updatedVocab = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  if (!id) {
+    throw new ApiError(400, "Id not exists");
+  }
+
+  const { word, pronunciation, whenToSay, lessonNo, adminEmail } = req.body;
+  if (![word, pronunciation, whenToSay, lessonNo, adminEmail].every(Boolean)) {
+    throw new ApiError(400, "All fields are required");
+  }
+
+  //   Vocabulary.findByIdAndUpdate()
+
+  const updatedVocabulary = await Vocabulary.findByIdAndUpdate(
+    id,
+    { $set: req.body },
+    { new: true, runValidators: true }
+  );
+
+  if (!updatedVocabulary) {
+    throw new ApiError(404, "Vocabulary not updated");
+  }
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        updatedVocabulary,
+        "Vocabulary updated successfully!"
+      )
+    );
+});
+
+export { vocabAdd, getAllVocabs, deleteVocab, updatedVocab };
