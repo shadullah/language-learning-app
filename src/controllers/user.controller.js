@@ -7,12 +7,12 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 const registerUser = asyncHandler(async (req, res) => {
   try {
-    const { username, email, password, role } = req.body;
+    const { fullname, email, password, role } = req.body;
     console.log("email : ", email);
     console.log(req.body);
 
     if (
-      [username, email, password, role].some((field) => field?.trim() === "")
+      [fullname, email, password, role].some((field) => field?.trim() === "")
     ) {
       // throw new ApiError(400, "all fields are required");
       res.send("all fields are required");
@@ -49,7 +49,7 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 
     const createdUser = await User.create({
-      username,
+      fullname,
       email,
       password,
       role,
