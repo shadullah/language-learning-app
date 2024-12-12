@@ -1,4 +1,5 @@
 import { Lesson } from "../models/lessons.model.js";
+import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
@@ -49,4 +50,40 @@ const deleteLesson = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, lesson, "lesson deleted successfully"));
 });
 
-export { lessonAdd, getAllLessons, deleteLesson };
+const updateLesson = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  if (!id) {
+    throw new ApiError(400, "Id not exists");
+  }
+
+  const { name, lessonNum } = req.body;
+  if ([name, lessonNum].some((field) => field?.trim() === "")) {
+    res.send("all fields are required");
+  }
+
+  const lesson = await Lesson.findById(id);
+  if (lesson.name === name) {
+    throw new ApiError(500, "same things cannot be updated");
+  }
+
+  if (name) {
+    lesson.name = name;
+  }
+
+  if (lessonNum) {
+    lesson.lessonNum = lessonNum;
+  }
+
+  const updateLesson = await lesson.save();
+
+  if (!updateLesson) {
+    throw new ApiError(400, "lesson not updated");
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, updateLesson, "Updated lesson successfully"));
+});
+
+export { lessonAdd, getAllLessons, deleteLesson, updateLesson };
