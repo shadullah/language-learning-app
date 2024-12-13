@@ -86,4 +86,28 @@ const updateLesson = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, updateLesson, "Updated lesson successfully"));
 });
 
-export { lessonAdd, getAllLessons, deleteLesson, updateLesson };
+const getSingleLesson = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  if (!id) {
+    throw new ApiError(400, "Id not exists");
+  }
+
+  const lesson = await Lesson.findById(id);
+
+  if (!lesson) {
+    throw new ApiError(404, "lesson does not exist");
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, lesson, "lesson fetched successfully"));
+});
+
+export {
+  lessonAdd,
+  getAllLessons,
+  deleteLesson,
+  updateLesson,
+  getSingleLesson,
+};
