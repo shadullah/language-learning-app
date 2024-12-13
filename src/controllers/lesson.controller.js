@@ -21,7 +21,7 @@ const lessonAdd = asyncHandler(async (req, res) => {
 
   return res
     .status(201)
-    .json(new ApiResponse(200, createdLesson, "User created successfully!!"));
+    .json(new ApiResponse(200, createdLesson, "lesson created successfully!!"));
 });
 
 const getAllLessons = asyncHandler(async (req, res) => {

@@ -18,7 +18,7 @@ const vocabularySchema = new mongoose.Schema(
       trim: true,
     },
     lessonNo: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Number,
       required: true,
       ref: "Lesson",
     },
