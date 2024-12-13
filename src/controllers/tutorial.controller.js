@@ -28,7 +28,9 @@ const AddTutorial = asyncHandler(async (req, res) => {
 
   return res
     .status(201)
-    .json(new ApiResponse(200, createdTutorial, "User created successfully!!"));
+    .json(
+      new ApiResponse(200, createdTutorial, "Tutorial created successfully!!")
+    );
 });
 
 const getTutorials = asyncHandler(async (req, res) => {
